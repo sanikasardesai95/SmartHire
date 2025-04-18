@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smart-hire
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: smart-hire
+  template:
+    metadata:
+      labels:
+        app: smart-hire
+    spec:
+      containers:
+        - name: smart-hire
+          image: smarthire
+          ports:
+            - containerPort: 80
+          env:
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "my_key.json"
+            - name: DB_HOST
+              value: "34.72.51.3"
+            - name: DB_NAME
+              value: "postgres"
+            - name: DB_USER
+              value: "postgres"
+            - name: DB_PASS
+              value: "Ashu123"
+            - name: SECRET_KEY
+              value: "your_secret_key"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smart-hire
+spec:
+  selector:
+    app: smart-hire
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer

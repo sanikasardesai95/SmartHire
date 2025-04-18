@@ -1,0 +1,8 @@
+apiVersion: deploy.cloud.google.com/v1beta1
+kind: Target
+metadata:
+  name: prod
+description: Production environment
+gke:
+  cluster: projects/smarthirehub-429323/locations/us-central1-a/clusters/prod-cluster
+requireApproval: true

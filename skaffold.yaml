@@ -1,0 +1,22 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+metadata:
+  name: smart-hire
+build:
+  artifacts:
+    - image: smarthire
+deploy:
+  kubectl:
+    manifests:
+      - kubernetes.yaml
+profiles:
+  - name: dev
+    deploy:
+      kubectl:
+        manifests:
+          - dev-target.yaml
+  - name: prod
+    deploy:
+      kubectl:
+        manifests:
+          - prod-target.yaml

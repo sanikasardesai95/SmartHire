@@ -1,0 +1,46 @@
+steps:
+  # Step 1: Build the Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-central1-docker.pkg.dev/smarthirehub-429323/hiringsystem-repo/smarthire:$SHORT_SHA', '.']
+    
+  # Step 2: Run tests
+  - name: 'python:3.10'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest
+        pytest test_smart_hire.py
+
+  # Step 2: Push the Docker image to Google Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-central1-docker.pkg.dev/smarthirehub-429323/hiringsystem-repo/smarthire:$SHORT_SHA']
+
+
+  # Step 3: Apply the Cloud Deploy configurations
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['deploy', 'apply', '--file=clouddeploy.yaml', '--region=us-central1']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['deploy', 'apply', '--file=dev-target.yaml', '--region=us-central1']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: ['deploy', 'apply', '--file=prod-target.yaml', '--region=us-central1']
+
+  # Step 4: Deploy to Cloud Deploy pipeline
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - >
+       gcloud deploy releases create release-$BUILD_ID
+       --delivery-pipeline=smart-hire-pipeline
+       --region=us-central1
+       --source=./
+       --images=smarthire=us-central1-docker.pkg.dev/smarthirehub-429323/hiringsystem-repo/smarthire:$SHORT_SHA
+images:
+  - 'us-central1-docker.pkg.dev/smarthirehub-429323/hiringsystem-repo/smarthire:$SHORT_SHA'
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY
