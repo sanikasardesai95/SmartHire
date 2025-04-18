@@ -35,6 +35,14 @@ Deploy on GCP with Terraform
 cd terraform
 terraform init
 terraform apply
+
+![Screenshot (698)](https://github.com/user-attachments/assets/202b470d-d9a1-464d-974f-31bc2c9193e3)
+![Screenshot (699)](https://github.com/user-attachments/assets/1e1226e4-9f07-4c5c-be77-102ac4713469)
+![Screenshot (700)](https://github.com/user-attachments/assets/b0e25364-c4a5-4bc0-82d9-e2dfe9efd26c)
+![Screenshot (701)](https://github.com/user-attachments/assets/a4a56e13-7997-45d6-b91b-53b6f94779dc)
+![Screenshot (702)](https://github.com/user-attachments/assets/9621da47-401e-4075-b192-4d60fa7db248)
+![Screenshot (697)](https://github.com/user-attachments/assets/5eb5f447-72ac-468a-bb6b-77492bdb7bcf)
+
 ![Screenshot (703)](https://github.com/user-attachments/assets/a6d41f86-7fd7-4218-bffd-af04d7507121)
 
 
